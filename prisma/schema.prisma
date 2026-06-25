@@ -81,7 +81,7 @@ enum ProblemStatus {
 model DailyTarget {
   id        String               @id @default(uuid())
   userId    String
-  date      String
+  date      DateTime             @db.Date
   note      String?
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
