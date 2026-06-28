@@ -30,7 +30,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     const d = parsed.data;
     let result;
-    if (d.action === "update") result = await updateSheet(id, { title: d.title, description: d.description, isPublic: d.isPublic });
+    if (d.action === "update") result = await updateSheet(id, {
+  ...(d.title !== undefined && { title: d.title }),
+  ...(d.description !== undefined && { description: d.description }),
+  ...(d.isPublic !== undefined && { isPublic: d.isPublic }),
+});
     else if (d.action === "addProblem" && d.problemSlug) result = await addProblemToSheet(id, d.problemSlug, d.note);
     else if (d.action === "removeProblem" && d.problemSlug) result = await removeProblemFromSheet(id, d.problemSlug);
     else return NextResponse.json({ data: null, error: { code: "VALIDATION", message: "Invalid action" } }, { status: 400 });
