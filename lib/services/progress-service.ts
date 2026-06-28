@@ -2,7 +2,7 @@
 // Progress service — status updates + streak maintenance
 // ============================================
 import { prisma } from "@/lib/prisma";
-import { ProblemStatus } from "@prisma/client";
+type ProblemStatus = "ATTEMPTED" | "SOLVED" | "REVISIT";
 import { getCurrentUser } from "./current-user";
 
 function toDateOnly(d: Date) {

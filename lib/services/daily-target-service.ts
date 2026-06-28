@@ -93,7 +93,7 @@ export async function setDayTarget(
       data: {
         note: note ?? existing.note,
         problems: {
-          create: problems.map((p, i) => ({
+          create: problems.map((p: {problemSlug: string; note?: string; order?: number}, i: number) => ({
             problemSlug: p.problemSlug,
             note: p.note ?? null,
             order: p.order ?? i,
@@ -111,7 +111,7 @@ export async function setDayTarget(
       date: dateStr,
       note: note ?? null,
       problems: {
-        create: problems.map((p, i) => ({
+        create: problems.map((p: {problemSlug: string; note?: string; order?: number}, i: number) => ({
           problemSlug: p.problemSlug,
           note: p.note ?? null,
           order: p.order ?? i,
@@ -136,7 +136,7 @@ export async function addProblemToDay(
   });
 
   if (existing) {
-    const alreadyExists = existing.problems.some((p) => p.problemSlug === problemSlug);
+    const alreadyExists = existing.problems.some((p: {problemSlug: string}) => p.problemSlug === problemSlug);
     if (!alreadyExists) {
       await prisma.dailyTargetProblem.create({
         data: {

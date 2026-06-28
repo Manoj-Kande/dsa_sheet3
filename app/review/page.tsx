@@ -77,7 +77,7 @@ export default function ReviewPage() {
                   <div className="flex-1 min-w-0">
                     <button onClick={() => openProblem(item.slug)} className="text-sm font-semibold text-text-primary hover:text-accent transition-colors text-left truncate block">{item.title}</button>
                     <div className="flex items-center gap-2 mt-1">
-                      <DifficultyBadge difficulty={item.difficulty} variant="outline"/>
+                      <DifficultyBadge difficulty={item.difficulty as "Easy" | "Medium" | "Hard"} variant="outline"/>
                       <span className="text-xs text-text-tertiary">{item.topic}</span>
                       <span className="text-xs text-red-400">{item.overdueDays === 0 ? "Due today" : `${item.overdueDays}d overdue`}</span>
                     </div>
@@ -108,7 +108,7 @@ export default function ReviewPage() {
                   <div className="flex-1 min-w-0">
                     <button onClick={() => openProblem(item.slug)} className="text-sm font-semibold text-text-primary hover:text-accent transition-colors text-left truncate block">{item.title}</button>
                     <div className="flex items-center gap-2 mt-1">
-                      <DifficultyBadge difficulty={item.difficulty} variant="outline"/>
+                      <DifficultyBadge difficulty={item.difficulty as "Easy" | "Medium" | "Hard"} variant="outline"/>
                       <span className="text-xs text-text-tertiary">{item.topic}</span>
                     </div>
                   </div>

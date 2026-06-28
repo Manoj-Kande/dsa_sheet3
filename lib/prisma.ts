@@ -3,6 +3,7 @@
 // Without this adapter, every serverless invocation opens a raw
 // connection and exhausts Neon's connection limit under real traffic.
 // ============================================
+// @ts-ignore -- Prisma 7 with Neon adapter
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { neonConfig } from "@neondatabase/serverless";

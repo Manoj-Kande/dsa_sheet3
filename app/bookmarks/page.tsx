@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Bookmark, Inbox } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 import { DATASET } from "@/lib/data/dataset";
 import { AppShell } from "@/components/shared/app-shell";
 import { ProblemTable } from "@/components/shared/problem-table";
@@ -43,7 +44,7 @@ export default function BookmarksPage() {
 
         <Show when="signed-in">
           {bookmarkedProblems.length === 0
-            ? <EmptyState icon={BookmarkIcon} title="No bookmarks yet" description="Click the bookmark icon on any problem to save it here for later." action={{ label: "Browse Problems", href: "/problems" }} />
+            ? <EmptyState icon={Bookmark} title="No bookmarks yet" description="Click the bookmark icon on any problem to save it here for later." action={{ label: "Browse Problems", href: "/problems" }} />
             : <ProblemTable problems={bookmarkedProblems} showTopic />
           }
         </Show>

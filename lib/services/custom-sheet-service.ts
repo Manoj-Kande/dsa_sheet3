@@ -70,9 +70,7 @@ export async function createSheet(
       description: description ?? null,
       isPublic: isPublic ?? false,
       problems: {
-        create: (problems ?? []).map((p, i) => ({
-          problemSlug: p.problemSlug, note: p.note ?? null, order: i,
-        })),
+        create: (problems ?? []).map((p: unknown, i) => { const prob = p as {problemSlug: string; note?: string}; return { problemSlug: prob.problemSlug, note: prob.note ?? null, order: i }; }),
       },
     },
     include: { problems: { orderBy: { order: "asc" } } },
@@ -104,7 +102,7 @@ export async function addProblemToSheet(id: string, problemSlug: string, note?: 
     include: { problems: true },
   });
   if (!sheet) throw new Error("Sheet not found");
-  const exists = sheet.problems.some(p => p.problemSlug === problemSlug);
+  const exists = sheet.problems.some((p: {problemSlug: string}) => p.problemSlug === problemSlug);
   if (!exists) {
     await prisma.customSheetProblem.create({
       data: { customSheetId: id, problemSlug, note: note ?? null, order: sheet.problems.length },

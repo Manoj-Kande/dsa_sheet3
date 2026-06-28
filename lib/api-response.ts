@@ -18,7 +18,7 @@ export function handleApiError(error: unknown) {
   if (error instanceof UnauthorizedError) return err("UNAUTHORIZED", "Sign in required", 401);
   if (error instanceof ForbiddenError)    return err("FORBIDDEN",    "Access denied",    403);
   if (error instanceof NotFoundError)     return err("NOT_FOUND",    error.message,      404);
-  if (error instanceof ZodError)          return err("VALIDATION",   error.errors[0]?.message ?? "Invalid input", 400);
+  if (error instanceof ZodError)          return err("VALIDATION",   error.issues?.[0]?.message ?? "Invalid input", 400);
   console.error("[api]", error);
   return err("INTERNAL", "Something went wrong", 500);
 }

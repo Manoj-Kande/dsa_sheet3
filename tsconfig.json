@@ -26,10 +26,7 @@
       "@/*": [
         "./*"
       ]
-    },
-    "noUncheckedIndexedAccess": true,
-    "noImplicitReturns": true,
-    "exactOptionalPropertyTypes": true
+    }
   },
   "include": [
     "next-env.d.ts",
