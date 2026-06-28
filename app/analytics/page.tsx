@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 import { useEffect, useState, useMemo } from "react";
 import { AppShell } from "@/components/shared/app-shell";
 import { TrendingUp, Flame, Target, CheckCircle2, Clock, RotateCcw, BarChart2 } from "lucide-react";
