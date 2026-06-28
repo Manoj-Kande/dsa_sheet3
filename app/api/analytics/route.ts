@@ -42,8 +42,11 @@ export async function GET() {
       const p = problemMap.get(r.problemSlug);
       if (p) {
         if (!byTopic[p.topic]) byTopic[p.topic] = { solved: 0, attempted: 0, total: topicTotals[p.topic] ?? 0 };
-        if (r.status === "SOLVED") { byTopic[p.topic].solved++; byDifficulty[p.difficulty as keyof typeof byDifficulty].solved++; }
-        else if (r.status === "ATTEMPTED") byTopic[p.topic].attempted++;
+        const topicEntry = byTopic[p.topic];
+        if (topicEntry) {
+          if (r.status === "SOLVED") { topicEntry.solved++; byDifficulty[p.difficulty as keyof typeof byDifficulty].solved++; }
+          else if (r.status === "ATTEMPTED") topicEntry.attempted++;
+        }
       }
       if (r.status === "SOLVED") {
         const d = new Date(r.solvedAt ?? r.updatedAt);
