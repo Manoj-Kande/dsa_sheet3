@@ -42,20 +42,10 @@ export default function BookmarksPage() {
         </Show>
 
         <Show when="signed-in">
-          {bookmarkedProblems.length === 0 ? (
-            <div className="flex flex-col items-center text-center gap-3 py-16 text-text-secondary">
-              <Inbox className="w-10 h-10 text-text-tertiary" />
-              <div className="text-lg font-semibold text-text-primary">No bookmarks yet</div>
-              <div className="text-sm max-w-[360px]">
-                Click the bookmark icon on any problem to save it here for later.
-              </div>
-              <Link href="/problems" className="px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-md">
-                Browse Problems
-              </Link>
-            </div>
-          ) : (
-            <ProblemTable problems={bookmarkedProblems} showTopic />
-          )}
+          {bookmarkedProblems.length === 0
+            ? <EmptyState icon={BookmarkIcon} title="No bookmarks yet" description="Click the bookmark icon on any problem to save it here for later." action={{ label: "Browse Problems", href: "/problems" }} />
+            : <ProblemTable problems={bookmarkedProblems} showTopic />
+          }
         </Show>
       </div>
     </AppShell>

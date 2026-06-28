@@ -7,6 +7,7 @@ import { TopicCard, CompanyCard, SheetCard } from "@/components/shared/cards";
 import { useUserData } from "@/lib/hooks/use-user-data";
 import { Flame } from "lucide-react";
 import { Show, SignInButton } from "@clerk/nextjs";
+import { TodayTargetWidget, ReviewWidget, StreakWidget } from "@/components/shared/dashboard-widgets";
 
 export default function HomePage() {
   const { progress, isSignedIn, streak } = useUserData();
@@ -121,6 +122,15 @@ export default function HomePage() {
                 Longest: <span className="font-mono">{streak.longestStreak}</span> days
               </p>
             </div>
+          </section>
+        </Show>
+
+        {/* Dashboard widgets */}
+        <Show when="signed-in">
+          <section className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+            <TodayTargetWidget />
+            <ReviewWidget />
+            <StreakWidget />
           </section>
         </Show>
 

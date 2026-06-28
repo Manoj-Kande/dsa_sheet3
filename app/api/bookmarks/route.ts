@@ -1,42 +1,26 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { handleApiError, ok } from "@/lib/api-response";
+import { rateLimit } from "@/lib/rate-limit";
 import { getAllBookmarks, toggleBookmark } from "@/lib/services/bookmark-service";
-import { UnauthorizedError } from "@/lib/services/current-user";
 
-const toggleSchema = z.object({
-  problemSlug: z.string().min(1).max(200),
-});
+const toggleSchema = z.object({ problemSlug: z.string().min(1).max(200) });
 
 export async function GET() {
   try {
     const bookmarks = await getAllBookmarks();
-    return NextResponse.json({ data: bookmarks, error: null });
-  } catch (err) {
-    if (err instanceof UnauthorizedError) {
-      return NextResponse.json({ data: null, error: { code: "UNAUTHORIZED", message: "Sign in required" } }, { status: 401 });
-    }
-    console.error(err);
-    return NextResponse.json({ data: null, error: { code: "INTERNAL", message: "Something went wrong" } }, { status: 500 });
-  }
+    return ok(bookmarks);
+  } catch (err) { return handleApiError(err); }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const limited = await rateLimit(req, { limit: 120 });
+  if (limited) return limited;
   try {
     const body = await req.json();
     const parsed = toggleSchema.safeParse(body);
-    if (!parsed.success) {
-      return NextResponse.json(
-        { data: null, error: { code: "VALIDATION", message: parsed.error.message } },
-        { status: 400 }
-      );
-    }
+    if (!parsed.success) return NextResponse.json({ data: null, error: { code: "VALIDATION", message: parsed.error.message } }, { status: 400 });
     const isBookmarked = await toggleBookmark(parsed.data.problemSlug);
-    return NextResponse.json({ data: { isBookmarked }, error: null });
-  } catch (err) {
-    if (err instanceof UnauthorizedError) {
-      return NextResponse.json({ data: null, error: { code: "UNAUTHORIZED", message: "Sign in required" } }, { status: 401 });
-    }
-    console.error(err);
-    return NextResponse.json({ data: null, error: { code: "INTERNAL", message: "Something went wrong" } }, { status: 500 });
-  }
+    return ok({ isBookmarked });
+  } catch (err) { return handleApiError(err); }
 }

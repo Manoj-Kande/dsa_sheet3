@@ -178,3 +178,6 @@ body {
 .fade-up-1 { animation-delay: 50ms; }
 .fade-up-2 { animation-delay: 100ms; }
 .fade-up-3 { animation-delay: 150ms; }
+
+/* Safe area for mobile bottom nav */
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
